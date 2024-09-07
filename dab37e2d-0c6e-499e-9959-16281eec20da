@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>tools and technology stack</title>
+    </head>
+    <body>
+        <a href="index.html">home</a>
+        <h1>TOOLS AND TECHNOLOGY STACK</h1>
+        <tbody>
+            <tr>
+            <td><img src="html.png" width="300"></td>
+            <td><img src="css.png" width="300"></td>
+            <td><img src="js.png" width="300"></td>
+            <td><img src="figma.png" width="300"></td>
+            </tr>
+        </tbody>
+
+    </body>
+    
+
+</html>    

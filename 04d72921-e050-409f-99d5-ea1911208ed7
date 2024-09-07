@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <head>
+    <title>skills</title>
+    </head>
+
+    <a href="index.html">home</a>
+    <body>
+        <h1>MY SKILLS</h1>
+        <dl>
+            <dt>COOKING</dt>
+            <dd> - the act of preparing food for eating especially by heating : the act of cooking food. 
+                I do most of the cooking for our family. b. : a manner of preparing food : cuisine.</dd>
+            <dt>DANCING</dt>
+            <dd> - Dance is a form of creative expression through physical movement that includes rhythmic movements
+                 that accompany music.</dd>
+        </dl>
+
+    </body>
+</html>
+
+
+

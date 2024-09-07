@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>html</title>
+    </head>
+    <body>
+        <h1>INTRODUCTION</h1>
+        <img src="pic.png" width="200" length="200">
+        <h2>CITRON, Andrhey V.</h2>
+        <h3>BSCS 2D</h3>
+        <h3> DC 101 WEB DEVELOPMENT</h3>
+
+        <HR>
+            <h3>ABOUT ME</h3>
+            <p> I'm CITRON, ANDRHEY V 19 yrs old from Adya Lipa City Irreg Student from kll college im taking my second yr at BSCS
+                and my hobbie is playing basketball and palying online games.
+            </p>
+
+            <ol>
+                <li><a href="skills.html" >SKILLS</li></a>
+                <li><a href="hobbies.html" >HOBBIES</li></a>
+                <li><a href="tools.html" >TOOLS AND TECHNOLOGY STACK</li></a>
+            </ol>
+        <hr>
+
+        <form>
+            <label for="name" >NAME</label></br>
+            <input type="text" name="name" id="name" placeholder="username"/>
+            <br>
+
+
+            <label for="Email">Email</label><br>
+            <input type="Email" name="email" id="email"/>
+            <br>
+
+
+            <label for="message">Your Message</label><br>
+            <textarea name="message"id="message"></textarea>
+            <br>
+        </form>
+
+             <label for="country">Country</label><br />
+             <select id="country">
+                <option value="Phillipines">Phillipines</option>
+                <option value="canada">canada</option>
+                <option value="korea">korea</option></select><br  />
+
+                <label>Job Type</label><br>
+                <input type="radio" name="jobtype" value="parttime" id="parttime" />
+                <label for="parttime" >Part Time</label>
+                <br />
+                <input type="radio" name="jobtype" value="parttime" id="parttime" />
+                <label for="fulltime" >Full Time</label>
+               
+
+                
+            
+    </body>
+</html>
