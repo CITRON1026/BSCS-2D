@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Feedback - Library System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Leave Feedback</h2>
+                <form id="feedbackForm">
+                    <div class="mb-3">
+                        <label for="feedback" class="form-label">Your Feedback</label>
+                        <textarea class="form-control" id="feedback" rows="5" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Rating</label>
+                        <select class="form-select" id="rating" required>
+                            <option value="">Select a rating</option>
+                            <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                            <option value="4">⭐⭐⭐⭐ Good</option>
+                            <option value="3">⭐⭐⭐ Average</option>
+                            <option value="2">⭐⭐ Poor</option>
+                            <option value="1">⭐ Very Poor</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                </form>
+                <div id="message" class="alert d-none mt-3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#feedbackForm').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/api/feedback',
+            type: 'POST',
+            data: JSON.stringify({
+                feedback_text: $('#feedback').val(),
+                rating: $('#rating').val()
+            }),
+            contentType: 'application/json',
+            success: function(data) {
+                $('#message').removeClass('d-none alert-danger').addClass('alert-success').text('Feedback submitted successfully!');
+                $('#feedbackForm')[0].reset();
+                setTimeout(() => location.reload(), 2000);
+            },
+            error: function(xhr) {
+                $('#message').removeClass('d-none alert-success').addClass('alert-danger').text('Error submitting feedback');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

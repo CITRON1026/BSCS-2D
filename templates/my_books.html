@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}My Books - Library System{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h2>My Issued Books</h2>
+        <div id="booksContainer">
+            <p>Loading...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: '/api/my-books',
+        success: function(books) {
+            let html = '<table class="table table-striped">';
+            html += '<thead><tr><th>Book Title</th><th>Author</th><th>Issue Date</th><th>Due Date</th><th>Status</th><th>Action</th></tr></thead><tbody>';
+            
+            books.forEach(book => {
+                html += `
+                    <tr>
+                        <td>${book.title}</td>
+                        <td>${book.author}</td>
+                        <td>${book.issue_date}</td>
+                        <td>${book.due_date}</td>
+                        <td><span class="badge bg-${book.status === 'issued' ? 'primary' : 'success'}">${book.status}</span></td>
+                        <td>
+                            ${book.status === 'issued' ? `<button class="btn btn-sm btn-danger" onclick="returnBook(${book.issue_id})">Return</button>` : ''}
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody></table>';
+            $('#booksContainer').html(html);
+        }
+    });
+    
+    window.returnBook = function(issueId) {
+        $.ajax({
+            url: '/api/issues/' + issueId,
+            type: 'POST',
+            success: function(data) {
+                alert('Book returned successfully!');
+                location.reload();
+            },
+            error: function(xhr) {
+                alert('Error: ' + xhr.responseJSON.message);
+            }
+        });
+    };
+});
+</script>
+{% endblock %}

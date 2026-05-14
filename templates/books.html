@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Browse Books - Library System{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h2>Search Books</h2>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search by title, author, or category...">
+                    <select class="form-select" id="searchType" style="max-width: 150px;">
+                        <option value="title">Title</option>
+                        <option value="author">Author</option>
+                        <option value="category">Category</option>
+                    </select>
+                    <button class="btn btn-primary" type="button" id="searchBtn">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="booksContainer">
+    <!-- Books will be loaded here -->
+</div>
+
+<script>
+function loadBooks() {
+    $.ajax({
+        url: '/api/books',
+        success: function(books) {
+            displayBooks(books);
+        }
+    });
+}
+
+function displayBooks(books) {
+    let html = '';
+    books.forEach(book => {
+        html += `
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">${book.title}</h5>
+                        <p class="card-text"><strong>Author:</strong> ${book.author}</p>
+                        <p class="card-text"><small class="text-muted">${book.category}</small></p>
+                        <p class="card-text">Available: ${book.available_copies} / ${book.total_copies}</p>
+                        <button class="btn btn-primary btn-sm" onclick="issueBook(${book.book_id})">Issue Book</button>
+                        <button class="btn btn-secondary btn-sm" onclick="reserveBook(${book.book_id})">Reserve</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    $('#booksContainer').html(html);
+}
+
+function issueBook(bookId) {
+    $.ajax({
+        url: '/api/issues',
+        type: 'POST',
+        data: JSON.stringify({book_id: bookId, days: 14}),
+        contentType: 'application/json',
+        success: function(data) {
+            alert('Book issued! Due date: ' + data.due_date);
+            loadBooks();
+        },
+        error: function(xhr) {
+            alert('Error: ' + xhr.responseJSON.message);
+        }
+    });
+}
+
+function reserveBook(bookId) {
+    $.ajax({
+        url: '/api/reservations',
+        type: 'POST',
+        data: JSON.stringify({book_id: bookId}),
+        contentType: 'application/json',
+        success: function(data) {
+            alert('Book reserved successfully!');
+            loadBooks();
+        },
+        error: function(xhr) {
+            alert('Error: ' + xhr.responseJSON.message);
+        }
+    });
+}
+
+$(document).ready(function() {
+    loadBooks();
+    
+    $('#searchBtn').click(function() {
+        let query = $('#searchInput').val();
+        let type = $('#searchType').val();
+        $.ajax({
+            url: '/api/books/search',
+            data: {q: query, type: type},
+            success: function(books) {
+                displayBooks(books);
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

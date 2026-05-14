@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - Library System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card" style="margin-top: 30px;">
+            <div class="card-body p-5">
+                <h2 class="card-title text-center mb-4">Register</h2>
+                <form id="registerForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="first_name" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="last_name" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="student_id" class="form-label">Student ID</label>
+                        <input type="text" class="form-control" id="student_id" name="student_id">
+                    </div>
+                    <div class="mb-3">
+                        <label for="department" class="form-label">Department</label>
+                        <input type="text" class="form-control" id="department" name="department">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input type="tel" class="form-control" id="phone" name="phone">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                </form>
+                <p class="text-center mt-3">Already have an account? <a href="/login">Login here</a></p>
+                <div id="message" class="alert d-none"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#registerForm').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/register',
+            type: 'POST',
+            data: JSON.stringify({
+                first_name: $('#first_name').val(),
+                last_name: $('#last_name').val(),
+                email: $('#email').val(),
+                student_id: $('#student_id').val(),
+                department: $('#department').val(),
+                phone: $('#phone').val(),
+                password: $('#password').val()
+            }),
+            contentType: 'application/json',
+            success: function(data) {
+                $('#message').removeClass('d-none alert-danger').addClass('alert-success').text('Registration successful! Redirecting to login...');
+                setTimeout(() => window.location.href = '/login', 2000);
+            },
+            error: function(xhr) {
+                $('#message').removeClass('d-none alert-success').addClass('alert-danger').text(xhr.responseJSON.message);
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

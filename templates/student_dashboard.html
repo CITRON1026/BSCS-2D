@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Library System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h2>Welcome, {{ user.first_name }} {{ user.last_name }}!</h2>
+                <p class="text-muted">Student ID: {{ user.student_id }} | Department: {{ user.department }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">📖 Books Issued</h5>
+                <p class="card-text" id="issued-count">Loading...</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">📚 Available Books</h5>
+                <p class="card-text" id="available-count">Loading...</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">🔖 Reservations</h5>
+                <p class="card-text" id="reservation-count">Loading...</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">💰 Pending Fines</h5>
+                <p class="card-text" id="fine-count">Loading...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    // Load issued books
+    $.ajax({
+        url: '/api/my-books',
+        success: function(data) {
+            $('#issued-count').text(data.filter(b => b.status === 'issued').length);
+        }
+    });
+    
+    // Load available books
+    $.ajax({
+        url: '/api/books',
+        success: function(data) {
+            $('#available-count').text(data.length);
+        }
+    });
+    
+    // Load reservations
+    $.ajax({
+        url: '/api/my-reservations',
+        success: function(data) {
+            $('#reservation-count').text(data.filter(r => r.status === 'pending').length);
+        }
+    });
+    
+    // Load fines
+    $.ajax({
+        url: '/api/fines',
+        success: function(data) {
+            $('#fine-count').text(data.filter(f => f.status === 'pending').length);
+        }
+    });
+});
+</script>
+{% endblock %}
